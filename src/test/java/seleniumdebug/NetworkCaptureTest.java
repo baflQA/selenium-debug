@@ -4,13 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.SneakyThrows;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.devtools.NetworkInterceptor;
-import org.openqa.selenium.devtools.v115.network.Network;
+import org.openqa.selenium.devtools.v116.network.Network;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.HttpResponse;
@@ -21,7 +22,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Objects;
@@ -57,8 +57,9 @@ public class NetworkCaptureTest {
         });
     }
 
+    @SneakyThrows
     @BeforeMethod
-    public void setUp() throws JsonProcessingException, MalformedURLException {
+    public void setUp() {
         var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
         var augmented = new Augmenter().augment(browser);
         var devTools = enableInterception((HasDevTools) augmented);
