@@ -1,17 +1,12 @@
 package seleniumdebug;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.SneakyThrows;
 import org.awaitility.Awaitility;
 import org.awaitility.core.ConditionFactory;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.HasDevTools;
 import org.openqa.selenium.devtools.NetworkInterceptor;
-import org.openqa.selenium.devtools.v116.network.Network;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.Contents;
@@ -23,12 +18,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BooleanSupplier;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -38,16 +32,7 @@ import static seleniumdebug.NetworkCaptureTest.AwaitUtil.awaitAssertTrue;
 
 public class NetworkCapture2Test {
 
-    private final AtomicReference<String> responseAsString = new AtomicReference<>();
-
     private NetworkInterceptor interceptor;
-
-    private static DevTools enableInterception(HasDevTools augmented) {
-        var devTools = augmented.getDevTools();
-        devTools.createSessionIfThereIsNotOne();
-        devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
-        return devTools;
-    }
 
     @SneakyThrows
     @BeforeMethod
@@ -55,26 +40,30 @@ public class NetworkCapture2Test {
         var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
 //        var browser = new ChromeDriver();
         var augmented = new Augmenter().augment(browser);
-        var devTools = enableInterception((HasDevTools) augmented);
-        captureResponse(devTools);
-        browser.get("https://developer.mozilla.org/en-US/");
-        var map = extractAndModifyCapturedResponse();
         var flag = new AtomicBoolean(false);
         interceptor = new NetworkInterceptor(augmented, (Filter) next -> req -> {
             var res = next.execute(req);
             if (req.getUri().endsWith("pong/get")) {
-                flag.set(true);
-                res.setHeader("Content-Type", "application/json");
-                res.setContent(Contents.utf8String(map.toString()));
+                try {
+                    var inputStream = res.getContent().get();
+                    String string = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
+                    var map = new JsonMapper().readTree(string);
+                    var colors = map.at("/hpMain/colors");
+                    ((ObjectNode) colors).put("backgroundColor", "red");
+                    res.setHeader("Content-Type", "application/json");
+                    res.setContent(Contents.utf8String(map.toString()));
+                    flag.set(true);
+                } catch (Exception e) {
+                }
             }
             return res;
         });
-        augmented.get("https://developer.mozilla.org/en-US/");
+        browser.get("https://developer.mozilla.org/en-US/");
         awaitAssertTrue(flag::get);
     }
 
     @Test
-    public void whenValidationErrorIsThrownOnApprovalUpdateFromDetailsThenErrorMessageIsDisplayedTest() throws InterruptedException {
+    public void test() throws InterruptedException {
         interceptor.close();
         Thread.sleep(Duration.ofSeconds(10).toMillis());
     }
@@ -82,23 +71,6 @@ public class NetworkCapture2Test {
     @AfterMethod
     public void closeNetworkInterceptor() {
         interceptor.close();
-    }
-
-    private void captureResponse(DevTools devTools) {
-        devTools.addListener(Network.responseReceived(), receivedResponse -> {
-            var response = receivedResponse.getResponse();
-            if (response.getUrl().endsWith("pong/get")) {
-                var requestId = receivedResponse.getRequestId();
-                responseAsString.set(devTools.send(Network.getResponseBody(requestId)).getBody());
-            }
-        });
-    }
-
-    private JsonNode extractAndModifyCapturedResponse() throws JsonProcessingException {
-        var map = new JsonMapper().readTree(AwaitUtil.awaitNonNull(responseAsString::get));
-        var colors = map.at("/hpMain/colors");
-        ((ObjectNode) colors).put("backgroundColor", "red");
-        return map;
     }
 
     static class AwaitUtil {
