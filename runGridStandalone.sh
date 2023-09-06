@@ -14,11 +14,14 @@ url = "http://127.0.0.1:2375"
 [node]
 drivers = ["chrome", "firefox"]
 max-sessions = 4
-session-timeout = 3600
+session-timeout = 30
 grid-url = "http://localhost:4444"
 selenium-manager = true
+enable-managed-downloads = true
 [sessionqueue]
-session-request-timeout = 1800
+session-request-timeout = 10
+[logging]
+log-level = CONFIG
 EOF
 
 docker network create grid
