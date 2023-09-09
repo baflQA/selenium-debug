@@ -20,8 +20,6 @@ selenium-manager = true
 enable-managed-downloads = true
 [sessionqueue]
 session-request-timeout = 10
-[logging]
-log-level = CONFIG
 EOF
 
 docker network create grid
