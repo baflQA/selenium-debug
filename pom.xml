@@ -12,12 +12,12 @@
     <properties>
         <awaitility.version>4.2.0</awaitility.version>
         <jackson.core.version>2.15.2</jackson.core.version>
-        <lombok.version>1.18.28</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler>3.8.0</maven.compiler>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <selenium.version>4.12.1</selenium.version>
+        <selenium.version>4.14.0</selenium.version>
         <slf4j.version>2.0.7</slf4j.version>
         <testng.version>7.8.0</testng.version>
     </properties>
@@ -47,11 +47,6 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-http-jdk-client</artifactId>
             <version>${selenium.version}</version>
         </dependency>
         <dependency>
