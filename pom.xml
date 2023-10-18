@@ -17,7 +17,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler>3.8.0</maven.compiler>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <selenium.version>4.14.0</selenium.version>
+        <selenium.version>4.14.1</selenium.version>
         <slf4j.version>2.0.7</slf4j.version>
         <testng.version>7.8.0</testng.version>
     </properties>

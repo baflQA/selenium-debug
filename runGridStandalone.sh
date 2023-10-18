@@ -3,7 +3,7 @@
 docker stop selenium-standalone
 docker rm selenium-standalone
 
-IMAGE_VERSION='4.13'
+IMAGE_VERSION='4.14'
 cat <<EOF >config.toml
 [docker]
 configs = [
@@ -11,6 +11,8 @@ configs = [
     "selenium/standalone-chrome:${IMAGE_VERSION}", '{"browserName": "chrome"}'
 ]
 url = "http://127.0.0.1:2375"
+[logging]
+log-level = FINE
 [node]
 drivers = ["chrome", "firefox"]
 max-sessions = 4
