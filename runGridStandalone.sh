@@ -3,7 +3,7 @@
 docker stop selenium-standalone
 docker rm selenium-standalone
 
-IMAGE_VERSION='4.14'
+IMAGE_VERSION='4.15'
 cat <<EOF >config.toml
 [docker]
 configs = [
