@@ -11,14 +11,14 @@
 
     <properties>
         <awaitility.version>4.2.0</awaitility.version>
-        <jackson.core.version>2.15.2</jackson.core.version>
+        <jackson.core.version>2.16.0</jackson.core.version>
         <lombok.version>1.18.30</lombok.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler>3.8.0</maven.compiler>
-        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
-        <selenium.version>4.15.0</selenium.version>
-        <slf4j.version>2.0.7</slf4j.version>
+        <maven.compiler>3.11.0</maven.compiler>
+        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
+        <selenium.version>4.16.1</selenium.version>
+        <slf4j.version>2.0.9</slf4j.version>
         <testng.version>7.8.0</testng.version>
     </properties>
 

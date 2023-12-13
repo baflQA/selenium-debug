@@ -3,7 +3,7 @@
 docker stop selenium-standalone
 docker rm selenium-standalone
 
-IMAGE_VERSION='4.15'
+IMAGE_VERSION='4.16'
 cat <<EOF >config.toml
 [docker]
 configs = [
@@ -16,10 +16,9 @@ log-level = FINE
 [node]
 drivers = ["chrome", "firefox"]
 max-sessions = 4
-session-timeout = 30
+session-timeout = 3000
 grid-url = "http://localhost:4444"
 selenium-manager = true
-enable-managed-downloads = true
 [sessionqueue]
 session-request-timeout = 10
 EOF
@@ -36,6 +35,7 @@ docker run -d -p 4444:4444 --shm-size="2g" \
   -e SE_SCREEN_HEIGHT=1080 \
   -e SE_VNC_NO_PASSWORD=1 \
   -e SE_START_VNC=true \
+  -e SE_OPTS='--enable-managed-downloads true' \
   -v "${PWD}"/config.toml:/opt/bin/config.toml \
   -v "${PWD}"/assets:/opt/selenium/assets \
   -v /var/run/docker.sock:/var/run/docker.sock \

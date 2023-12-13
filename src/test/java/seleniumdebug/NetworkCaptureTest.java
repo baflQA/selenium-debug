@@ -61,6 +61,7 @@ public class NetworkCaptureTest {
     @BeforeMethod
     public void setUp() {
         var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
+        browser.manage().window().fullscreen();
         var augmented = new Augmenter().augment(browser);
         var devTools = enableInterception((HasDevTools) augmented);
         captureResponse(devTools);

@@ -30,6 +30,7 @@ public class NetworkCapture2Test {
     public void test() {
         var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
 //        var browser = new ChromeDriver();
+        browser.manage().window().maximize();
         var augmented = new Augmenter().augment(browser);
         var flag = new AtomicBoolean(false);
         var interceptor = new NetworkInterceptor(augmented, (Filter) next -> req -> {
