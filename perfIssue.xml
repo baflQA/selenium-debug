@@ -1,0 +1,13 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Se Perf" parallel="classes" thread-count="4">
+    <test name="perfIssue">
+        <classes>
+            <class name="seleniumdebug.perf.Perf1"/>
+            <class name="seleniumdebug.perf.Perf2"/>
+            <class name="seleniumdebug.perf.Perf3"/>
+            <class name="seleniumdebug.perf.Perf4"/>
+        </classes>
+    </test>
+</suite>
+

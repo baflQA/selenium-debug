@@ -4,15 +4,13 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.SneakyThrows;
 import org.awaitility.Awaitility;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.NetworkInterceptor;
 import org.openqa.selenium.remote.Augmenter;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.http.Contents;
 import org.openqa.selenium.remote.http.Filter;
 import org.testng.annotations.Test;
 
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -28,8 +26,8 @@ public class NetworkCapture2Test {
     @SneakyThrows
     @Test
     public void test() {
-        var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
-//        var browser = new ChromeDriver();
+//        var browser = new RemoteWebDriver(new URL("http://localhost:4444"), new ChromeOptions());
+        var browser = new ChromeDriver();
         browser.manage().window().maximize();
         var augmented = new Augmenter().augment(browser);
         var flag = new AtomicBoolean(false);

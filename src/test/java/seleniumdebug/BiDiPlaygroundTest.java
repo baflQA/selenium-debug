@@ -34,9 +34,9 @@ public class BiDiPlaygroundTest {
     @Test
     public void bidiTest() {
         Network network = new Network(webDriver);
-        network.onResponseCompleted(req -> System.out.println(req.getRequest()));
-        network.onResponseStarted(resp -> System.out.println(resp.getResponseData()));
-        network.onBeforeRequestSent(req -> System.out.println(req.getRequest()));
+//        network.onResponseCompleted(responseDetails -> System.out.println(responseDetails.getResponseData().getContent().get()));
+//        network.onResponseStarted(resp -> System.out.println(resp.getResponseData().getContent().get()));
+        network.onBeforeRequestSent(req -> System.out.println(req.getRequest().getUrl()));
 
         var browsingContext = new BrowsingContext(webDriver, webDriver.getWindowHandle());
         webDriver.get("https://www.w3schools.com");

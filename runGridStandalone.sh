@@ -3,7 +3,7 @@
 docker stop selenium-standalone
 docker rm selenium-standalone
 
-IMAGE_VERSION='4.16'
+IMAGE_VERSION='4.17'
 cat <<EOF >config.toml
 [docker]
 configs = [
@@ -11,16 +11,17 @@ configs = [
     "selenium/standalone-chrome:${IMAGE_VERSION}", '{"browserName": "chrome"}'
 ]
 url = "http://127.0.0.1:2375"
-[logging]
-log-level = FINE
 [node]
 drivers = ["chrome", "firefox"]
 max-sessions = 4
-session-timeout = 3000
+session-timeout = 3600
 grid-url = "http://localhost:4444"
 selenium-manager = true
+enable-cdp = true
 [sessionqueue]
-session-request-timeout = 10
+session-request-timeout = 1800
+[router]
+disable-ui = false
 EOF
 
 docker network create grid
@@ -31,8 +32,8 @@ docker run -d -p 4444:4444 --shm-size="2g" \
   --health-interval=15s \
   --health-timeout=30s \
   --health-retries=5 \
-  -e SE_SCREEN_WIDTH=1920 \
-  -e SE_SCREEN_HEIGHT=1080 \
+  -e SE_SCREEN_WIDTH=2048 \
+  -e SE_SCREEN_HEIGHT=1280 \
   -e SE_VNC_NO_PASSWORD=1 \
   -e SE_START_VNC=true \
   -e SE_OPTS='--enable-managed-downloads true' \
@@ -45,7 +46,7 @@ docker run -d -p 4444:4444 --shm-size="2g" \
 set -e
 url="http://localhost:4444/wd/hub/status"
 wait_interval=1
-max_wait_time=45
+max_wait_time=60
 end_time=$((SECONDS + max_wait_time))
 time_left=$max_wait_time
 
