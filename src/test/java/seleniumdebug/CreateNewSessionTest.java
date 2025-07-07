@@ -13,7 +13,6 @@ public class CreateNewSessionTest {
     @Test
     public void createNewSession() {
         ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--remote-debugging-port=9222", "--disable-dev-shm-usage", "--disable-gpu");
         chromeOptions.enableBiDi();
         assertThatNoException().isThrownBy(() -> RemoteWebDriver.builder()
                 .address("http://localhost:4444")
