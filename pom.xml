@@ -10,19 +10,25 @@
     <packaging>jar</packaging>
 
     <properties>
-        <awaitility.version>4.2.0</awaitility.version>
-        <jackson.core.version>2.16.0</jackson.core.version>
-        <lombok.version>1.18.30</lombok.version>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <maven.compiler>3.11.0</maven.compiler>
-        <maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
-        <selenium.version>4.18.0</selenium.version>
-        <slf4j.version>2.0.9</slf4j.version>
-        <testng.version>7.9.0</testng.version>
+        <awaitility.version>4.3.0</awaitility.version>
+        <jackson.core.version>2.18.2</jackson.core.version>
+        <lombok.version>1.18.38</lombok.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler>3.14.0</maven.compiler>
+        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+        <selenium.version>4.34.0</selenium.version>
+        <slf4j.version>2.0.16</slf4j.version>
+        <testng.version>7.11.0</testng.version>
+        <aspectjweaver.version>1.9.24</aspectjweaver.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.27.3</version>
+        </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>
             <artifactId>awaitility</artifactId>
@@ -82,14 +88,14 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.19/aspectjweaver-1.9.19.jar"
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectjweaver.version}/aspectjweaver-${aspectjweaver.version}.jar"
                     </argLine>
                 </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
                         <artifactId>aspectjweaver</artifactId>
-                        <version>1.9.19</version>
+                        <version>${aspectjweaver.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
